@@ -1,39 +1,39 @@
 {
-	"name": "vscode-decoration-performance-test",
-	"displayName": "vscode-decoration-performance-test",
-	"description": "vscode-decoration-performance-test",
-	"version": "0.0.1",
-	"engines": {
-		"vscode": "^1.52.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:vscode-decoration-performance-test.helloWorld"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "vscode-decoration-performance-test.helloWorld",
-				"title": "Hello World"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile && npm run lint",
-		"lint": "eslint source --ext ts"
-	},
-	"devDependencies": {
-		"@types/vscode": "^1.52.0",
-		"@types/node": "^12.11.7",
-		"eslint": "^7.15.0",
-		"@typescript-eslint/eslint-plugin": "^4.9.0",
-		"@typescript-eslint/parser": "^4.9.0",
-		"typescript": "^4.1.2"
-	}
+    "name": "vscode-decoration-performance-test",
+    "displayName": "vscode-decoration-performance-test",
+    "description": "vscode-decoration-performance-test",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.52.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:vscode-decoration-performance-test.helloWorld"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "vscode-decoration-performance-test.helloWorld",
+                "title": "Hello World"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint source --ext ts"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.52.0",
+        "@types/node": "^12.11.7",
+        "eslint": "^7.15.0",
+        "@typescript-eslint/eslint-plugin": "^4.9.0",
+        "@typescript-eslint/parser": "^4.9.0",
+        "typescript": "^4.1.2"
+    }
 }
