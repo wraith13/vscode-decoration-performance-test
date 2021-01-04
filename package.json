@@ -10,14 +10,21 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:vscode-decoration-performance-test.helloWorld"
+        "onCommand:decorationPerformanceTest.start",
+        "onCommand:decorationPerformanceTest.stop"
     ],
     "main": "./out/extension.js",
     "contributes": {
         "commands": [
             {
-                "command": "vscode-decoration-performance-test.helloWorld",
-                "title": "Hello World"
+                "command": "decorationPerformanceTest.start",
+                "title": "Start",
+                "category": "Decoration Performance Test"
+            },
+            {
+                "command": "decorationPerformanceTest.stop",
+                "title": "stop",
+                "category": "Decoration Performance Test"
             }
         ]
     },

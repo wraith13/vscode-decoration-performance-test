@@ -1,27 +1,46 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+export let decorationEnabled = false;
+export const updateDecoration = (editor: vscode.TextEditor): void =>
+{
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+};
+export const updateDecorationByDocument = (document: vscode.TextDocument): void =>
+    vscode.window.visibleTextEditors
+        .filter(i => i.document === document)
+        .forEach(i => updateDecoration(i));
+export const clearDecorationCache = (): void =>
+{
 
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "vscode-decoration-performance-test" is now active!');
+};
+export const onDidChangeActiveTextEditor = (): void =>
+{
+    clearDecorationCache();
+    if (vscode.window.activeTextEditor)
+    {
+        updateDecorationByDocument(vscode.window.activeTextEditor.document);
+    }
+};
+export const onDidOpenTextDocument = (document: vscode.TextDocument): void =>
+    updateDecorationByDocument(document);
+export const onDidChangeTextDocument = (document: vscode.TextDocument): void =>
+{
+    clearDecorationCache();
+    updateDecorationByDocument(document);
+};
 
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with registerCommand
-    // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('vscode-decoration-performance-test.helloWorld', () => {
-        // The code you place here will be executed every time your command is executed
-
-        // Display a message box to the user
-        vscode.window.showInformationMessage('Hello World from vscode-decoration-performance-test!');
-    });
-
-    context.subscriptions.push(disposable);
-}
-
-// this method is called when your extension is deactivated
-export function deactivate() {}
+export const activate = (context: vscode.ExtensionContext) =>
+{
+    context.subscriptions.push
+    (
+        vscode.commands.registerCommand('decorationPerformanceTest.start', () => {
+            vscode.window.showInformationMessage('Hello World from vscode-decoration-performance-test!(start)');
+        }),
+        vscode.commands.registerCommand('decorationPerformanceTest.stop', () => {
+            vscode.window.showInformationMessage('Hello World from vscode-decoration-performance-test!(stop)');
+        }),
+        vscode.workspace.onDidChangeTextDocument(event => onDidChangeTextDocument(event.document)),
+        vscode.workspace.onDidOpenTextDocument(document => onDidOpenTextDocument(document)),
+        vscode.window.onDidChangeActiveTextEditor(() => onDidChangeActiveTextEditor()),
+    );
+};
+export const deactivate = () => { };
