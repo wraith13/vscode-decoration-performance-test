@@ -1,31 +1,34 @@
 import * as vscode from 'vscode';
 export let decorationEnabled = false;
-export const updateDecoration = (editor: vscode.TextEditor): void =>
-{
+export let decoration: vscode.TextEditorDecorationType | undefined;
 
+export const updateDecoration = (document: vscode.TextDocument): void =>
+{
+    const editor = vscode.window.activeTextEditor;
+    if (editor?.document === document)
+    {
+
+    }
 };
-export const updateDecorationByDocument = (document: vscode.TextDocument): void =>
-    vscode.window.visibleTextEditors
-        .filter(i => i.document === document)
-        .forEach(i => updateDecoration(i));
 export const clearDecorationCache = (): void =>
 {
-
+    decoration?.dispose();
+    decoration = undefined;
 };
 export const onDidChangeActiveTextEditor = (): void =>
 {
     clearDecorationCache();
     if (vscode.window.activeTextEditor)
     {
-        updateDecorationByDocument(vscode.window.activeTextEditor.document);
+        updateDecoration(vscode.window.activeTextEditor.document);
     }
 };
 export const onDidOpenTextDocument = (document: vscode.TextDocument): void =>
-    updateDecorationByDocument(document);
+    updateDecoration(document);
 export const onDidChangeTextDocument = (document: vscode.TextDocument): void =>
 {
     clearDecorationCache();
-    updateDecorationByDocument(document);
+    updateDecoration(document);
 };
 
 export const activate = (context: vscode.ExtensionContext) =>
