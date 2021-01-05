@@ -1,13 +1,59 @@
 import * as vscode from 'vscode';
 export let decorationEnabled = false;
 export let decoration: vscode.TextEditorDecorationType | undefined;
-
+export const regExpExecToArray = (regexp: RegExp, text: string) =>
+{
+    const result: RegExpExecArray[] = [];
+    while(true)
+    {
+        const match = regexp.exec(text);
+        if (null === match)
+        {
+            break;
+        }
+        result.push(match);
+    }
+    return result;
+};
 export const updateDecoration = (document: vscode.TextDocument): void =>
 {
     const editor = vscode.window.activeTextEditor;
     if (editor?.document === document)
     {
-
+        clearDecorationCache();
+        decoration = vscode.window.createTextEditorDecorationType
+        ({
+            isWholeLine: true,
+            //color,
+        });
+        const options: vscode.DecorationOptions[] = [];
+        const color = "#888888";
+        const text = document.getText();
+        regExpExecToArray(/^.*$/gum, text)
+        .map
+        (
+            match => options.push
+            ({
+                range: new vscode.Range
+                (
+                    document.positionAt(match.index),
+                    document.positionAt(match.index +match[0].length)
+                ),
+                renderOptions:
+                {
+                    after:
+                    {
+                        contentText: match[0],
+                        color,
+                    }
+                }
+            })
+        );
+        editor.setDecorations
+        (
+            decoration,
+            options
+        );
     }
 };
 export const clearDecorationCache = (): void =>
