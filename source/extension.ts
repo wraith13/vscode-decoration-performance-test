@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 export let decorationEnabled = false;
-export let decoration: vscode.TextEditorDecorationType | undefined;
+export let decoration: vscode.TextEditorDecorationType | undefined = undefined;
 export const regExpExecToArray = (regexp: RegExp, text: string) =>
 {
     const result: RegExpExecArray[] = [];
@@ -30,6 +30,7 @@ export const updateDecoration = (document: vscode.TextDocument): void =>
         const color = "#888888";
         const text = document.getText();
         regExpExecToArray(/^.*$/gum, text)
+        .filter(match => 0 < match[0].trim().length)
         .map
         (
             match => options.push

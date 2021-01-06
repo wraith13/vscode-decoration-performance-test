@@ -23,7 +23,7 @@
             },
             {
                 "command": "decorationPerformanceTest.stop",
-                "title": "stop",
+                "title": "Stop",
                 "category": "Decoration Performance Test"
             }
         ]
