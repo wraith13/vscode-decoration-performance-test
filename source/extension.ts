@@ -17,10 +17,10 @@ export const regExpExecToArray = (regexp: RegExp, text: string) =>
 };
 export const updateDecoration = (document: vscode.TextDocument): void =>
 {
+    clearDecorationCache();
     const editor = vscode.window.activeTextEditor;
     if (editor?.document === document)
     {
-        clearDecorationCache();
         decoration = vscode.window.createTextEditorDecorationType
         ({
             isWholeLine: true,
@@ -37,13 +37,13 @@ export const updateDecoration = (document: vscode.TextDocument): void =>
                 range: new vscode.Range
                 (
                     document.positionAt(match.index),
-                    document.positionAt(match.index +match[0].length)
+                    document.positionAt(match.index +match[0].length -1)
                 ),
                 renderOptions:
                 {
                     after:
                     {
-                        contentText: match[0],
+                        contentText: match[0].trim(),
                         color,
                     }
                 }
@@ -63,17 +63,19 @@ export const clearDecorationCache = (): void =>
 };
 export const onDidChangeActiveTextEditor = (): void =>
 {
-    clearDecorationCache();
     if (vscode.window.activeTextEditor)
     {
         updateDecoration(vscode.window.activeTextEditor.document);
+    }
+    else
+    {
+        clearDecorationCache();
     }
 };
 export const onDidOpenTextDocument = (document: vscode.TextDocument): void =>
     updateDecoration(document);
 export const onDidChangeTextDocument = (document: vscode.TextDocument): void =>
 {
-    clearDecorationCache();
     updateDecoration(document);
 };
 
@@ -82,10 +84,12 @@ export const activate = (context: vscode.ExtensionContext) =>
     context.subscriptions.push
     (
         vscode.commands.registerCommand('decorationPerformanceTest.start', () => {
-            vscode.window.showInformationMessage('Hello World from vscode-decoration-performance-test!(start)');
+            decorationEnabled = true;
+            onDidChangeActiveTextEditor();
         }),
         vscode.commands.registerCommand('decorationPerformanceTest.stop', () => {
-            vscode.window.showInformationMessage('Hello World from vscode-decoration-performance-test!(stop)');
+            decorationEnabled = false;
+            onDidChangeActiveTextEditor();
         }),
         vscode.workspace.onDidChangeTextDocument(event => onDidChangeTextDocument(event.document)),
         vscode.workspace.onDidOpenTextDocument(document => onDidOpenTextDocument(document)),
