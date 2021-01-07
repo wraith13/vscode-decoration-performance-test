@@ -29,7 +29,7 @@ export const updateDecoration = (document: vscode.TextDocument): void =>
         const options: vscode.DecorationOptions[] = [];
         const color = "#888888";
         const text = document.getText();
-        regExpExecToArray(/^.*$/gum, text)
+        regExpExecToArray(/(?:^|\n)[^\n]+(?:\n|$)/gum, text)
         .filter(match => 0 < match[0].trim().length)
         .map
         (
